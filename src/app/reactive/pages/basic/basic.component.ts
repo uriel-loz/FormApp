@@ -24,13 +24,16 @@ export class BasicComponent implements OnInit {
 
   constructor() { }
 
-  ngOnInit() {
+  ngOnInit(): void {
+    this.myForm.reset({price: 0, inStorage: 0});
   }
 
   onSave(): void {
     if (this.myForm.invalid) return;
 
     console.log('Form value:', this.myForm.value);
+
+    this.myForm.reset({price: 0, inStorage: 0});
   }
 
 }
