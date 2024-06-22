@@ -29,7 +29,10 @@ export class BasicComponent implements OnInit {
   }
 
   onSave(): void {
-    if (this.myForm.invalid) return;
+    if (this.myForm.invalid) {
+      this.myForm.markAllAsTouched();
+      return;
+    }
 
     console.log('Form value:', this.myForm.value);
 
