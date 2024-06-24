@@ -1,5 +1,5 @@
 import { Component, OnInit, inject } from '@angular/core';
-import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'reactive-dynamic',
@@ -18,6 +18,8 @@ export class DynamicComponent implements OnInit {
       ['Forza Horizon', Validators.required]
     ])
   });
+
+  public newFavorite: FormControl = new FormControl('', [Validators.required]);
 
   constructor() { }
 
@@ -52,6 +54,22 @@ export class DynamicComponent implements OnInit {
     }
 
     return '';
+  }
+
+  onAddFavorites(): void {
+    if(this.newFavorite.invalid) return;
+
+    const newGame = this.newFavorite.value;
+
+    this.favoriteGames.push(
+      this.formBuilder.control(newGame, Validators.required)
+    );
+
+    this.newFavorite.reset();
+  }
+
+  onDeleteFavorite(index: number): void {
+    this.favoriteGames.removeAt(index);
   }
 
   onSubmit(): void{
