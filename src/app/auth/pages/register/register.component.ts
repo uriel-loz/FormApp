@@ -1,6 +1,7 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ValidatorsService } from '../../../shared/services/validators.service';
+import { EmailValidatorService } from '../../../shared/services/email-validator.service';
 // import { cantBeStrider, firstNameAndLastnamePattern, emailPattern } from '../../../shared/validators/validators';
 
 @Component({
@@ -15,7 +16,7 @@ export class RegisterComponent {
 
   public myForm: FormGroup = this.formBuilder.group({
     name: ['', [Validators.required, Validators.pattern(this.validatorsService.firstNameAndLastnamePattern)]],
-    email: ['', [Validators.required, Validators.pattern(this.validatorsService.emailPattern)]],
+    email: ['', [Validators.required, Validators.pattern(this.validatorsService.emailPattern)], new EmailValidatorService()],
     username: ['', [Validators.required, this.validatorsService.cantBeStrider]],
     password: ['', [Validators.required, Validators.minLength(6)]],
     passwordConfirmation: ['', [Validators.required, Validators.minLength(6)]],
