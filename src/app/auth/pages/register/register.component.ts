@@ -1,5 +1,6 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { cantBeStrider } from '../../../shared/validators/validators';
 
 @Component({
   selector: 'auth-register',
@@ -12,7 +13,7 @@ export class RegisterComponent {
   public myForm: FormGroup = this.formBuilder.group({
     name: ['', [Validators.required]],
     email: ['', [Validators.required]],
-    username: ['', [Validators.required]],
+    username: ['', [Validators.required, cantBeStrider]],
     password: ['', [Validators.required, Validators.minLength(6)]],
     passwordConfirmation: ['', [Validators.required, Validators.minLength(6)]],
   });
