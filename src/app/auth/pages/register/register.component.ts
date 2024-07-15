@@ -1,6 +1,7 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { cantBeStrider, firstNameAndLastnamePattern, emailPattern } from '../../../shared/validators/validators';
+import { ValidatorsService } from '../../../shared/services/validators.service';
+// import { cantBeStrider, firstNameAndLastnamePattern, emailPattern } from '../../../shared/validators/validators';
 
 @Component({
   selector: 'auth-register',
@@ -10,17 +11,18 @@ import { cantBeStrider, firstNameAndLastnamePattern, emailPattern } from '../../
 export class RegisterComponent {
 
   private formBuilder = inject(FormBuilder);
+  private validatorsService  = inject(ValidatorsService);
+
   public myForm: FormGroup = this.formBuilder.group({
-    name: ['', [Validators.required, Validators.pattern(firstNameAndLastnamePattern)]],
-    email: ['', [Validators.required, Validators.pattern(emailPattern)]],
-    username: ['', [Validators.required, cantBeStrider]],
+    name: ['', [Validators.required, Validators.pattern(this.validatorsService.firstNameAndLastnamePattern)]],
+    email: ['', [Validators.required, Validators.pattern(this.validatorsService.emailPattern)]],
+    username: ['', [Validators.required, this.validatorsService.cantBeStrider]],
     password: ['', [Validators.required, Validators.minLength(6)]],
     passwordConfirmation: ['', [Validators.required, Validators.minLength(6)]],
   });
 
   isValidField(field: string): boolean | null {
-    return this.myForm.controls[field].errors
-      && this.myForm.controls[field].touched;
+    return this.validatorsService.isValidField(this.myForm, field);
   }
 
   onSubmit(): void {
